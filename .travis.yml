@@ -17,3 +17,8 @@ jdk:
 notifications:
   email:
     - sbt-dev-bot@googlegroups.com
+
+matrix:
+  include:
+  - scala: 2.12.0
+    jdk: oraclejdk8
