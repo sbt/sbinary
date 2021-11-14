@@ -6,7 +6,7 @@ object Dependencies {
   val scala211 = "2.11.12"
   val scala212 = "2.12.11"
   val scala213 = "2.13.1"
-  val scala3   = "3.1.0"
+  val scala3 = "3.1.0"
 
   val scalacheck = Def.setting {
     scalaBinaryVersion.value match {

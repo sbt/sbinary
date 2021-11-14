@@ -26,7 +26,8 @@ object Equal {
   implicit def eqSet[T]: Equal[immutable.Set[T]] = allAreEqual[immutable.Set[T]];
   implicit def eqSortedSet[T]: Equal[immutable.SortedSet[T]] = allAreEqual[immutable.SortedSet[T]];
   implicit def eqMap[S, T]: Equal[immutable.Map[S, T]] = allAreEqual[immutable.Map[S, T]];
-  implicit def eqSortedMap[S, T]: Equal[immutable.SortedMap[S, T]] = allAreEqual[immutable.SortedMap[S, T]];
+  implicit def eqSortedMap[S, T]: Equal[immutable.SortedMap[S, T]] =
+    allAreEqual[immutable.SortedMap[S, T]];
 
   implicit def eqList[T](implicit eqT: Equal[T]): Equal[List[T]] = new Equal[List[T]] {
     def apply(x: List[T], y: List[T]) = (x, y) match {
@@ -168,7 +169,9 @@ object FormatTests extends Properties("Formats") {
   ): Arbitrary[Array[T]] =
     Arbitrary(arbitrary[List[T]].map((x: List[T]) => x.toArray[T]));
 
-  def enumeration(names: Seq[String]): Enumeration = new Enumeration { names foreach (n => Value(n)) }
+  def enumeration(names: Seq[String]): Enumeration = new Enumeration {
+    names foreach (n => Value(n))
+  }
 
   implicit val arbitraryEnumeration: Arbitrary[Enumeration] =
     Arbitrary(arbitrary[List[String]].map(enumeration));
@@ -236,7 +239,8 @@ object FormatTests extends Properties("Formats") {
 
   implicit val SomeEnumFormat: Format[SomeEnum.Value] = enumerationFormat[SomeEnum.Value](SomeEnum)
   implicit val SomeEnumEq: Equal[SomeEnum.Value] = allAreEqual[SomeEnum.Value]
-  implicit val SomeEnumArb: Arbitrary[SomeEnum.Value] = Arbitrary[SomeEnum.Value](oneOf(SomeEnum.items))
+  implicit val SomeEnumArb: Arbitrary[SomeEnum.Value] =
+    Arbitrary[SomeEnum.Value](oneOf(SomeEnum.items))
 
   formatSpec[Boolean]("Boolean");
   formatSpec[Byte]("Byte");
