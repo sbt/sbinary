@@ -18,6 +18,7 @@ jobs:
       with:
         java-version: ${{matrix.java}}
         distribution: adopt
+    - uses: sbt/setup-sbt@v1
     - uses: coursier/cache-action@v6
     - run: sbt "+scalafmtCheckAll" scalafmtSbtCheck mimaReportBinaryIssues "+test"
     - name: cleanup
