@@ -187,8 +187,8 @@ object FormatTests extends Properties("Formats") {
 
   implicit val eqFoo: Equal[Foo] = allAreEqual[Foo]
 
-  implicit val BazFormat: Format[Baz] = viaString(Baz)
-  implicit val BifFormat: Format[Bif] = asProduct2(Bif)(x => (x.i, x.j))
+  implicit val BazFormat: Format[Baz] = viaString(Baz.apply)
+  implicit val BifFormat: Format[Bif] = asProduct2(Bif.apply)(x => (x.i, x.j))
   implicit val FooFormat: Format[Foo] = asUnion[Foo](Bar, classOf[Baz], classOf[Bif])
 
   implicit val arbitraryFoo: Arbitrary[Foo] = Arbitrary[Foo](
