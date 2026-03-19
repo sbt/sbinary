@@ -8,7 +8,7 @@ object Fmpp {
    */
   lazy val fmpp = TaskKey[Seq[File]]("fmpp")
   lazy val fmppOptions = SettingKey[Seq[String]]("fmpp-options")
-  lazy val FmppConfig = config("fmpp") hide
+  lazy val FmppConfig = config("fmpp").hide
 
   lazy val templateSettings = fmppConfig(Test) ++ fmppConfig(Compile) ++ templateBase
   lazy val templateBase = Seq(
