@@ -7,7 +7,7 @@ object Dependencies {
   val scala3 = "3.3.7"
 
   val scalacheck = Def.setting {
-    "org.scalacheck" %% "scalacheck" % "1.15.4"
+    "org.scalacheck" %% "scalacheck" % "1.19.0"
   }
   def scalaXmlDep(scalaV: String): List[ModuleID] =
     CrossVersion.partialVersion(scalaV) match {
