@@ -12,11 +12,10 @@ object HouseRulesPlugin extends AutoPlugin {
 
   lazy val baseSettings: Seq[Def.Setting[?]] = Seq(
     scalacOptions ++= Seq("-encoding", "utf8"),
-    scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked", "-Xlint"),
-    scalacOptions += "-language:higherKinds",
+    scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked"),
+    scalacOptions ++= "-language:higherKinds".ifScala212OrMinus.value.toList,
     scalacOptions += "-language:implicitConversions",
-    scalacOptions ++= "-Xfuture".ifScala213OrMinus.value.toList,
-    scalacOptions += "-Xlint",
+    scalacOptions ++= "-Xfuture".ifScala212OrMinus.value.toList,
     scalacOptions ++= "-Xfatal-warnings"
       .ifScala(v => {
         sys.props.get("sbt.build.fatal") match {
@@ -27,10 +26,13 @@ object HouseRulesPlugin extends AutoPlugin {
       .value
       .toList,
     scalacOptions ++= "-Yno-adapted-args".ifScala212OrMinus.value.toList,
-    scalacOptions += "-Ywarn-dead-code",
-    scalacOptions += "-Ywarn-numeric-widen",
-    scalacOptions += "-Ywarn-value-discard",
-    scalacOptions ++= "-Ywarn-unused-import".ifScala(v => 11 <= v && v <= 12).value.toList
+    scalacOptions ++= Seq(
+      "-Xlint",
+      "-Ywarn-dead-code",
+      "-Ywarn-numeric-widen",
+      "-Ywarn-value-discard",
+    ).ifScala213OrMinus.value.toList.flatten,
+    scalacOptions ++= "-Ywarn-unused-import".ifScala212OrMinus.value.toList
   ) ++ Seq(Compile, Test).flatMap(c =>
     c / console / scalacOptions --= Seq("-Ywarn-unused-import", "-Xlint")
   )
