@@ -17,9 +17,7 @@ trait BasicTypes extends CoreProtocol{
   }
 
 <#list 2..22 as i>
-  <#assign typeName>
-   Tuple${i}[<#list 1..i as j>T${j} <#if i != j>,</#if></#list>]
-  </#assign>
+  <#assign typeName>Tuple${i}[<#list 1..i as j>T${j} <#if i != j>,</#if></#list>]</#assign>
   implicit def tuple${i}Format[<#list 1..i as j>T${j}<#if i !=j>,</#if></#list>](implicit 
     <#list 1..i as j>
       bin${j} : Format[T${j}] <#if i != j>,</#if>
@@ -33,8 +31,8 @@ trait BasicTypes extends CoreProtocol{
     
       def writes(out : Output, tuple : ${typeName}) = {
       <#list 1..i as j>
-        write(out, tuple._${j});      
-      </#list>;
+        write(out, tuple._${j});
+      </#list>
       }
   }
 </#list>

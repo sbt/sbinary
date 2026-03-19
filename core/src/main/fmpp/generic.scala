@@ -118,7 +118,7 @@ trait Generic extends CoreProtocol{
    <#list 1..i as j>
       bin${j} : Format[T${j}] <#if i != j>,</#if>
     </#list>) = new Format[S]{
-       def reads (in : Input) : S = apply(
+      def reads (in : Input) : S = apply(
       <#list 1..i as j>
          read[T${j}](in)<#if i != j>,</#if>
       </#list>
@@ -127,8 +127,8 @@ trait Generic extends CoreProtocol{
       def writes(out : Output, s : S) = {
         val product = unapply(s);
         <#list 1..i as j>
-          write(out, product._${j});
-        </#list>;       
+        write(out, product._${j});
+        </#list>
       }
     }  
 </#list>
