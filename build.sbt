@@ -23,8 +23,9 @@ ThisBuild / scmInfo := Some(
 )
 ThisBuild / pomIncludeRepository := (_ => false) // drop repos other than Maven Central from POM
 ThisBuild / publishTo := {
-  val nexus = "https://oss.sonatype.org/"
-  Some("releases" at nexus + "service/local/staging/deploy/maven2")
+  val centralSnapshots = "https://central.sonatype.com/repository/maven-snapshots/"
+  if (version.value.endsWith("-SNAPSHOT")) Some("central-snapshots" at centralSnapshots)
+  else localStaging.value
 }
 
 lazy val root = (project in file("."))
@@ -38,8 +39,8 @@ lazy val root = (project in file("."))
 lazy val core = (project in file("core"))
   .settings(nocomma {
     name := "SBinary"
-    libraryDependencies += scalacheck.value % Test
-    libraryDependencies ++= scalaVersion(scalaXmlDep).value
+    libraryDependencies += scalacheck % Test
+    libraryDependencies += scalaXml
     Compile / unmanagedSourceDirectories += {
       val base = (Compile / scalaSource).value.getParentFile
       CrossVersion.partialVersion(scalaVersion.value) match {
