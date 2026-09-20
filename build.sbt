@@ -54,7 +54,21 @@ lazy val core = (project in file("core"))
     mimaPreviousArtifacts := {
       val versions = Seq("0.5.1")
       versions.map(v => organization.value %% moduleName.value % v).toSet
-    },
+    }
+    scalacOptions ++= {
+      scalaBinaryVersion.value match {
+        case "2.12" | "2.13" =>
+          Seq(
+            "-Xsource:3",
+            "-release:8",
+          )
+        case _ =>
+          Seq(
+            "-release:11",
+            "-Yfuture-lazy-vals",
+          )
+      }
+    }
   })
   .settings(
     relaxOldScala,
