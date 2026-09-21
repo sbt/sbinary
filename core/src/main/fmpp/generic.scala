@@ -21,7 +21,7 @@ trait Generic extends CoreProtocol{
     def reads(in : Input) = { val size = read[Int](in); build(size, (0 until size).map(i => read[T](in)).iterator) }
     def writes(out : Output, ts : S) = { write(out, size(ts)); foreach(ts)(write(out, _)); }
   }
-  /** 
+  /**
    * Format instance which encodes the collection by first writing the length
    * of the collection as an int, then writing the collection elements in order.
    */
@@ -53,7 +53,7 @@ trait Generic extends CoreProtocol{
     def reads(in : Input) = f(read[String](in));
     def writes(out : Output, t : T) = write(out, t.toString);
   }
-  
+
   /**
    * Trivial serialization. Writing is a no-op, reading always returns this instance.
    */
@@ -63,9 +63,9 @@ trait Generic extends CoreProtocol{
   }
 
   /**
-   * Serializes this via a bijection to some other type. 
+   * Serializes this via a bijection to some other type.
    */
-  def wrap[S, T](to : S => T, from : T => S)(implicit bin : Format[T]) = new Format[S]{
+  def wrap[S, T](to : S => T, from : T => S)(implicit bin : Format[T]): Format[S] = new Format[S]{
     def reads(in : Input) = from(read[T](in));
     def writes(out : Output, s : S) = write(out, to(s));
   }
@@ -73,7 +73,7 @@ trait Generic extends CoreProtocol{
   /**
    * Lazy wrapper around a binary. Useful when you want e.g. mutually recursive binary instances.
    */
-  def lazyFormat[S](bin : =>Format[S]) = new Format[S]{
+  def lazyFormat[S](bin : =>Format[S]): Format[S] = new Format[S]{
     lazy val delegate = bin;
 
     def reads(in : Input) = delegate.reads(in);
